@@ -17,6 +17,7 @@ function initialize(){
             clearTimeout(timerLongTouch);
         });
 
+
     edges_frame = svg.append("g");
     man_frame = svg.append("g");
     woman_frame = svg.append("g");
@@ -132,6 +133,32 @@ function reset_frame(){
             .attr('y2', sep+h(i))
             .attr('class','edge');
     }
+    // transpose button
+    var button_width = 30;
+    var button_height = 18;
+    var tb = edges_frame.append('g')
+        .attr("transform", "translate(" +  (sep+mpref_width+edge_width/2-button_width/2) + "," + (height-sep-button_height) + ")");
+    tb.append('rect')
+        .attr('rx',3)
+        .attr('ry',3)
+        .attr('fill','white')
+        .attr("width", button_width)
+        .attr("height", button_height);
+    tb.append('text')
+        .html('&harr;')
+        .attr('x',button_width/2)
+        .attr('y',button_height/2+4)
+        .attr("color","black")
+        .style("stroke", "black")
+        .style("stroke-width", "2px")
+        .style("text-anchor", "middle");
+    tb.append('rect')
+        .attr("class", "button")
+        .attr('rx',3)
+        .attr('ry',3)
+        .attr("width", button_width)
+        .attr("height", button_height)
+        .on('click',function(){transpose();});
     
     update_irlist();
     if(debug)console.log('IRlist updated');
@@ -208,14 +235,14 @@ function set_man_frame(){
                     mpref[i].splice(j,1);
                     reset_frame();
                 })
-                .on("touchstart", function(event){
+                .on("touchstart", function(){
                     d3.event.preventDefault();
                     timerLongTouch = setTimeout(function(){
                         mpref[i].splice(j,1);
                         reset_frame();
                     }, longTouchTime);
                 })
-                .on("touchmove", function(event){
+                .on("touchmove", function(){
                     d3.event.preventDefault();
                     clearTimeout(timerLongTouch);
                 })
@@ -238,7 +265,7 @@ function set_man_frame(){
                     reset_frame();
                 }
             })
-            .on("touchstart", function(event){
+            .on("touchstart", function(){
                 d3.event.preventDefault();
                 timerLongTouch = setTimeout(function(){
                     if(mpref[i].length<w_size){
@@ -249,7 +276,7 @@ function set_man_frame(){
                     }
                 }, longTouchTime);
             })
-            .on("touchmove", function(event){
+            .on("touchmove", function(){
                 d3.event.preventDefault();
                 clearTimeout(timerLongTouch);
             })
@@ -395,14 +422,14 @@ function set_woman_frame(){
                     wpref[i].splice(j,1);
                     reset_frame();
                 })
-                .on("touchstart", function(event){
+                .on("touchstart", function(){
                     d3.event.preventDefault();
                     timerLongTouch = setTimeout(function(){
                         wpref[i].splice(j,1);
                         reset_frame();
                     }, longTouchTime);
                 })
-                .on("touchmove", function(event){
+                .on("touchmove", function(){
                     d3.event.preventDefault();
                     clearTimeout(timerLongTouch);
                 })
@@ -425,7 +452,7 @@ function set_woman_frame(){
                     reset_frame();
                 }
             })
-            .on("touchstart", function(event){
+            .on("touchstart", function(){
                 d3.event.preventDefault();
                 timerLongTouch = setTimeout(function(){
                     if(wpref[i].length<m_size){
@@ -436,7 +463,7 @@ function set_woman_frame(){
                     }
                 }, longTouchTime);
             })
-            .on("touchmove", function(event){
+            .on("touchmove", function(){
                 d3.event.preventDefault();
                 clearTimeout(timerLongTouch);
             })

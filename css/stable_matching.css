@@ -108,6 +108,22 @@ input[type=number]:disabled {
 }
 
 
+.button {
+    fill: rgba(0,0,0,0);;
+    color: black;
+    stroke: black;
+    stroke-width: 1px;
+}
+.button:hover {
+    fill: rgba(0,0,0,0.1);;
+    cursor:pointer;
+}
+.button:active {
+    fill: rgba(0,0,200,0.1);;
+    cursor:pointer;
+}
+
+
 text {
     text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 }
