@@ -277,6 +277,7 @@ function handleFileSelect(evt) {
                 $("#file_optgroup").show();
                 reset_frame();
                 $.notify(theFile['name']+" loaded","success");
+                $("#load").val("");
             }
             catch(err) {
                 $.notify("load failed","error");

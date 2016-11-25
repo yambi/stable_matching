@@ -33,7 +33,7 @@ function reset(){
     if(debug)console.log("reset");
 
     // $("#reset").prop("disabled", true); 
-    // setTimeout(function(){$("#reset").prop("disabled", false);},500);//連打禁止
+    // setTimeout(function(){$("#reset").prop("disabled", false);},500);
 
     $("#file_optgroup").hide();
     $("#file_opt").hide();
@@ -84,6 +84,9 @@ function reset(){
             wpref = obj['w'];
             reset_frame();
         });
+    }
+    else if($("option:selected", $("#pref_type")).parent()[0].label == 'loaded file'){
+        $('#load').click();
     }
     else{
         console.log("no reset");
