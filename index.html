@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Stable matching visualization">
+  <meta name="keywords" content="stable matching, stable set, rotation">
+  <meta name="author" content="Yasushi Kawase">
+  <link href="css/stable_matching.css" rel="stylesheet" type="text/css"> 
+  <script src="./lib/d3.min.js"></script>
+  <script src="./lib/jquery-3.1.1.min.js"></script>
+  <script src="./lib/notify.min.js"></script>
+  <title>Stable matching</title>
+</head>
+<body>
+<h1>Stable matching</h1>
+<p>
+  #men: <input type="number" id="m_size" value="4" onkeypress="return kp(event)" onchange="reset_if_sizechange()" />&nbsp;
+  #women: <input type="number" id="w_size" value="4" onkeypress="return kp(event)" onchange="reset_if_sizechange()" /> &nbsp;
+  <select id="pref_type" onchange="reset()" title="choose an instance">
+    <optgroup label="generate">
+      <option value="random">random</option>
+      <option value="rand_sp">rand_sp</option>
+    </optgroup>
+    <optgroup label="predefined">
+      <option value="size3">size3</option>
+      <option value="size4">size4</option>
+      <option value="size8">size8</option>
+      <option value="all_rotation">all_rotation</option>
+    </optgroup>
+    <optgroup id="file_optgroup" label="loaded file">
+      <option id="file_opt"></option>
+    </optgroup>      
+  </select> &nbsp;
+ 
+  <select id="alg_type" onchange="reset_steps()" title="choose a mechanism">
+    <optgroup label="mechanism">
+    <option value="da">DA</option>
+    <option value="da_sim">DA sim</option>
+    <option value="boston">Boston</option>
+    <option value="sd">SD</option>
+    <option value="eada">EADA</option>
+    <option value="da+ttc">DA+TTC</option>
+    <option value="rotation">Rotation</option>
+    </optgroup>
+  </select> &nbsp;
+
+  <input type="button" id="undo_end" value="|<" title="go back to the first (a)" onclick="undo_end()"/>
+  <input type="button" id="undo_step" value="<" title="proceed to the previous (b)" onclick="undo_step()"/>
+  <input type="button" id="proceed_step" value=">" title="proceed to the next (f)" onclick="proceed_step()"/>
+  <input type="button" id="proceed_end" value=">|" title="proceed to the end (e)" onclick="proceed_end()"> &nbsp;
+  <input type="button" id="reset" value="R&#818;eset" title="reset (r)" onclick="reset()"/>&nbsp;&nbsp;
+  <input type="button" id="save" value="S&#818;ave" title="save the current instance as JSON file (s)" onclick="save()"/>&nbsp;
+  <input type="file" id="load" style="display:none;"/>
+  <input type="button" value="L&#818;oad" onClick="$('#load').click();" title="load an instance as JSON file (l)"/>
+</p>
+
+<div id="viz"></div>
+<p class='copyright'>&#169; <a href="http://www.soc.titech.ac.jp/~matsui/kawase/">Yasushi Kawase</a></p>
+
+<script src="./js/util.js"></script>
+<script src="./js/algorithm.js"></script>
+<script src="./js/step.js"></script>
+<script src="./js/draw.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3950277-2', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
+
