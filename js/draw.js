@@ -3,7 +3,20 @@ function initialize(){
     if(debug)console.log("Initialize");
     svg = d3.select("#viz")
         .append("svg")
-        .on("contextmenu",function(){d3.event.preventDefault();});
+        .on("contextmenu",function(){d3.event.preventDefault();})
+        .on("touchstart", function(){
+            d3.event.preventDefault();
+            timerLongTouch = setTimeout(function(){toggle_irlist();}, longTouchTime*2);
+        })
+        .on("touchmove", function(){
+            d3.event.preventDefault();
+            clearTimeout(timerLongTouch);
+        })
+        .on("touchend", function(){
+            d3.event.preventDefault();
+            clearTimeout(timerLongTouch);
+        });
+
     edges_frame = svg.append("g");
     man_frame = svg.append("g");
     woman_frame = svg.append("g");
@@ -191,6 +204,21 @@ function set_man_frame(){
                     d3.event.preventDefault();
                     mpref[i].splice(j,1);
                     reset_frame();
+                })
+                .on("touchstart", function(event){
+                    d3.event.preventDefault();
+                    timerLongTouch = setTimeout(function(){
+                        mpref[i].splice(j,1);
+                        reset_frame();
+                    }, longTouchTime);
+                })
+                .on("touchmove", function(event){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
+                })
+                .on("touchend", function(){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
                 });
         });
         var ntext = mrows[i].append('text')
@@ -206,7 +234,27 @@ function set_man_frame(){
                     }
                     reset_frame();
                 }
+            })
+            .on("touchstart", function(event){
+                d3.event.preventDefault();
+                timerLongTouch = setTimeout(function(){
+                    if(mpref[i].length<w_size){
+                        for(var w=0;w<w_size;++w){
+                            if(mpref[i].indexOf(w)==-1)mpref[i].push(w);
+                        }
+                        reset_frame();
+                    }
+                }, longTouchTime);
+            })
+            .on("touchmove", function(event){
+                d3.event.preventDefault();
+                clearTimeout(timerLongTouch);
+            })
+            .on("touchend", function(){
+                d3.event.preventDefault();
+                clearTimeout(timerLongTouch);
             });
+
 
         var ncircle = mrows[i].append("circle")
             .attr("transform", "translate(" + (mpref_width-r) + "," + (name_height/2+r) + ")")
@@ -343,8 +391,22 @@ function set_woman_frame(){
                     d3.event.preventDefault();
                     wpref[i].splice(j,1);
                     reset_frame();
+                })
+                .on("touchstart", function(event){
+                    d3.event.preventDefault();
+                    timerLongTouch = setTimeout(function(){
+                        wpref[i].splice(j,1);
+                        reset_frame();
+                    }, longTouchTime);
+                })
+                .on("touchmove", function(event){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
+                })
+                .on("touchend", function(){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
                 });
-
         });
         var ntext = wrows[i].append('text')
             .attr("class","woman")
@@ -359,7 +421,27 @@ function set_woman_frame(){
                     }
                     reset_frame();
                 }
+            })
+            .on("touchstart", function(event){
+                d3.event.preventDefault();
+                timerLongTouch = setTimeout(function(){
+                    if(wpref[i].length<m_size){
+                        for(var m=0;m<m_size;++m){
+                            if(wpref[i].indexOf(m)==-1)wpref[i].push(m);
+                        }
+                        reset_frame();
+                    }
+                }, longTouchTime);
+            })
+            .on("touchmove", function(event){
+                d3.event.preventDefault();
+                clearTimeout(timerLongTouch);
+            })
+            .on("touchend", function(){
+                d3.event.preventDefault();
+                clearTimeout(timerLongTouch);
             });
+
 
         var ncircle = wrows[i].append("circle")
             .attr("transform", "translate(" + (r) + "," + (name_height/2+r) + ")")

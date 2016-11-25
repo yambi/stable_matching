@@ -3,6 +3,12 @@ body {
     font-size: 16px;
     color: #000000;
     background-color: rgb(229,240,228);
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
 }
 
 

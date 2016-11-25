@@ -35,6 +35,9 @@ var MAX_SIZE = 16;
 
 var delay = 1000;
 
+var timerLongTouch;
+var longTouchTime = 500;
+var longTouch = false;
 
 var steps // each step of matching
 var position
