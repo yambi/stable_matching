@@ -196,6 +196,7 @@ function set_man_frame(){
     mcells = [];
     get_mrow = {};
     mpref_text = {};
+    mpref_cell = {};
 
     mpref.forEach(function(p,i){
         morder[i] = i;
@@ -205,57 +206,34 @@ function set_man_frame(){
             .attr("width", mpref_width)
             .attr("height", name_height);
 
+
         mrows[i].append('rect')
-            .attr("class","backpanel")
+            .attr("fill","rgba(229,240,228,1)")
             .attr("transform", "translate(0,"+offset+")")
             .attr("id",i)
             .attr("width", mpref_width)
             .attr("height", name_height-offset);
 
-        mpref_text[i] = {};
-        mcells[i] = {};
-        p.forEach(function(w,j){
-            mcells[i][w] = mrows[i].append('g')
-                .attr("transform", "translate(" + (name_width*(j+1)) + "," + 0 + ")")
-                .attr("width", name_width)
-                .attr("height", name_height);
-            mcells[i][w].append('rect')
-                .attr("class", "cell")
-                .attr("transform", "translate(" + 0 + "," + 0 + ")")
-                .attr("id",[i,w])
-                .attr("width", name_width)
-                .attr("height", name_height);
-            mpref_text[i][w] = mcells[i][w].append('text')
-                .attr("class","label")
-                .attr("id",[i,w])
-                .attr("transform", "translate(" + (name_width/2) + "," + ((name_height+font_size)/2) + ")")
-                .text("w"+i2l(w))
-                .on("contextmenu",function(){
-                    d3.event.preventDefault();
-                    mpref[i].splice(j,1);
-                    reset_frame();
-                })
-                .on("touchstart", function(){
-                    d3.event.preventDefault();
-                    timerLongTouch = setTimeout(function(){
-                        mpref[i].splice(j,1);
-                        reset_frame();
-                    }, longTouchTime);
-                })
-                .on("touchmove", function(){
-                    d3.event.preventDefault();
-                    clearTimeout(timerLongTouch);
-                })
-                .on("touchend", function(){
-                    d3.event.preventDefault();
-                    clearTimeout(timerLongTouch);
-                });
-        });
         var ntext = mrows[i].append('text')
             .attr("class","man")
             .attr("transform", "translate(0,"+((name_height+font_size)/2)+")")
             .attr("id",i)
-            .text("m"+i2l(i)+":")
+            .text("m"+i2l(i)+":");
+
+
+        var ncircle = mrows[i].append("circle")
+            .attr("transform", "translate(" + (mpref_width-r) + "," + (name_height/2+r) + ")")
+            .attr("class","man_circle")
+            .attr("id",i)
+            .attr("r", r);
+
+
+        mrows[i].append('rect')
+            .attr("class","backpanel")
+            .attr("transform", "translate(0,"+offset+")")
+            .attr("id",i)
+            .attr("width", mpref_width)
+            .attr("height", name_height-offset)
             .on("contextmenu",function(){
                 d3.event.preventDefault();
                 if(mpref[i].length<w_size){
@@ -285,12 +263,47 @@ function set_man_frame(){
                 clearTimeout(timerLongTouch);
             });
 
+        mpref_text[i] = {};
+        mpref_cell[i] = {};
+        mcells[i] = {};
+        p.forEach(function(w,j){
+            mcells[i][w] = mrows[i].append('g')
+                .attr("transform", "translate(" + (name_width*(j+1)) + "," + 0 + ")")
+                .attr("width", name_width)
+                .attr("height", name_height);
+            mpref_text[i][w] = mcells[i][w].append('text')
+                .attr("class","label")
+                .attr("id",[i,w])
+                .attr("transform", "translate(" + (name_width/2) + "," + ((name_height+font_size)/2) + ")")
+                .text("w"+i2l(w));
+            mpref_cell[i][w] = mcells[i][w].append('rect')
+                .attr("class", "cell")
+                .attr("transform", "translate(" + 0 + "," + 0 + ")")
+                .attr("id",[i,w])
+                .attr("width", name_width)
+                .attr("height", name_height)
+                .on("contextmenu",function(){
+                    d3.event.preventDefault();
+                    mpref[i].splice(j,1);
+                    reset_frame();
+                })
+                .on("touchstart", function(){
+                    d3.event.preventDefault();
+                    timerLongTouch = setTimeout(function(){
+                        mpref[i].splice(j,1);
+                        reset_frame();
+                    }, longTouchTime);
+                })
+                .on("touchmove", function(){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
+                })
+                .on("touchend", function(){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
+                });
 
-        var ncircle = mrows[i].append("circle")
-            .attr("transform", "translate(" + (mpref_width-r) + "," + (name_height/2+r) + ")")
-            .attr("class","man_circle")
-            .attr("id",i)
-            .attr("r", r);
+        });
         get_mrow[mrows[i]] = i;
         get_mrow[ncircle] = i;
         get_mrow[ntext] = i;
@@ -383,6 +396,7 @@ function set_woman_frame(){
     wcells = [];
     get_wrow = {};
     wpref_text = {};
+    wpref_cell = {};
 
     wpref.forEach(function(p,i){
         worder[i] = i;
@@ -392,57 +406,32 @@ function set_woman_frame(){
             .attr("width", wpref_width)
             .attr("height", name_height);
 
+
         wrows[i].append('rect')
-            .attr("class","backpanel")
+            .attr("fill","rgba(229,240,228,1)")
             .attr("transform", "translate(0,"+(offset)+")")
             .attr("id",i)
             .attr("width", wpref_width)
             .attr("height", name_height-offset);
 
-        wcells[i] = {};
-        wpref_text[i] = {};
-        p.forEach(function(m,j){
-            wcells[i][m] = wrows[i].append('g')
-                .attr("transform", "translate(" + (2*r+sep+name_width*(j+1)) + "," + 0 + ")")
-                .attr("width", name_width)
-                .attr("height", name_height);
-            wcells[i][m].append('rect')
-                .attr("class", "cell")
-                .attr("transform", "translate(" + 0 + "," + 0 + ")")
-                .attr("id",[i,m])
-                .attr("width", name_width)
-                .attr("height", name_height);
-            wpref_text[i][m] = wcells[i][m].append('text')
-                .attr("class","label")
-                .attr("id",[i,m])
-                .attr("transform", "translate(" + (name_width/2) + "," + ((name_height+font_size)/2) + ")")
-                .text("m"+i2l(m))
-                .on("contextmenu",function(){
-                    d3.event.preventDefault();
-                    wpref[i].splice(j,1);
-                    reset_frame();
-                })
-                .on("touchstart", function(){
-                    d3.event.preventDefault();
-                    timerLongTouch = setTimeout(function(){
-                        wpref[i].splice(j,1);
-                        reset_frame();
-                    }, longTouchTime);
-                })
-                .on("touchmove", function(){
-                    d3.event.preventDefault();
-                    clearTimeout(timerLongTouch);
-                })
-                .on("touchend", function(){
-                    d3.event.preventDefault();
-                    clearTimeout(timerLongTouch);
-                });
-        });
         var ntext = wrows[i].append('text')
             .attr("class","woman")
             .attr("transform", "translate("+(2*r+sep)+","+((name_height+font_size)/2)+")")
             .attr("id",i)
-            .text("w"+i2l(i)+":")
+            .text("w"+i2l(i)+":");
+
+        var ncircle = wrows[i].append("circle")
+            .attr("transform", "translate(" + (r) + "," + (name_height/2+r) + ")")
+            .attr("class","woman_circle")
+            .attr("id",i)
+            .attr("r", r);
+
+        wrows[i].append('rect')
+            .attr("class","backpanel")
+            .attr("transform", "translate(0,"+(offset)+")")
+            .attr("id",i)
+            .attr("width", wpref_width)
+            .attr("height", name_height-offset)
             .on("contextmenu",function(){
                 d3.event.preventDefault();
                 if(wpref[i].length<m_size){
@@ -472,12 +461,46 @@ function set_woman_frame(){
                 clearTimeout(timerLongTouch);
             });
 
-
-        var ncircle = wrows[i].append("circle")
-            .attr("transform", "translate(" + (r) + "," + (name_height/2+r) + ")")
-            .attr("class","woman_circle")
-            .attr("id",i)
-            .attr("r", r);
+        wcells[i] = {};
+        wpref_text[i] = {};
+        wpref_cell[i] = {};
+        p.forEach(function(m,j){
+            wcells[i][m] = wrows[i].append('g')
+                .attr("transform", "translate(" + (2*r+sep+name_width*(j+1)) + "," + 0 + ")")
+                .attr("width", name_width)
+                .attr("height", name_height);
+            wpref_text[i][m] = wcells[i][m].append('text')
+                .attr("class","label")
+                .attr("id",[i,m])
+                .attr("transform", "translate(" + (name_width/2) + "," + ((name_height+font_size)/2) + ")")
+                .text("m"+i2l(m));
+            wpref_cell[i][m] = wcells[i][m].append('rect')
+                .attr("class", "cell")
+                .attr("transform", "translate(" + 0 + "," + 0 + ")")
+                .attr("id",[i,m])
+                .attr("width", name_width)
+                .attr("height", name_height)
+                .on("contextmenu",function(){
+                    d3.event.preventDefault();
+                    wpref[i].splice(j,1);
+                    reset_frame();
+                })
+                .on("touchstart", function(){
+                    d3.event.preventDefault();
+                    timerLongTouch = setTimeout(function(){
+                        wpref[i].splice(j,1);
+                        reset_frame();
+                    }, longTouchTime);
+                })
+                .on("touchmove", function(){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
+                })
+                .on("touchend", function(){
+                    d3.event.preventDefault();
+                    clearTimeout(timerLongTouch);
+                });
+        });
         get_wrow[wrows[i]] = i;
         get_wrow[ncircle] = i;
         get_wrow[ntext] = i;
@@ -641,8 +664,6 @@ function update_edgeposition(){
         }
     }
 }
-
-
 
 
 function update_irlist(){

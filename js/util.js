@@ -28,6 +28,7 @@ var morder = [], worder = [];
 
 var mpref,wpref,minv,winv; // preferences
 var mpref_text, wpref_text;
+var mpref_cell, wpref_cell;
 var edges, match;
 
 var MIN_SIZE = 1;
