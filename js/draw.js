@@ -158,7 +158,8 @@ function reset_frame(){
         .attr('ry',3)
         .attr("width", button_width)
         .attr("height", button_height)
-        .on('click',function(){transpose();});
+        .on('click',function(){transpose();})
+        .on("touchend", function(){transpose();});
     
     update_irlist();
     if(debug)console.log('IRlist updated');
