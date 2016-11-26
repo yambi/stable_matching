@@ -61,7 +61,7 @@ input[type=number]:disabled {
     ry: 5;
 }
 .cell:hover {
-    fill: rgba(209,220,208,0.5);
+    fill: rgba(0,0,0,0.2);
 }
 
 .label {
