@@ -73,6 +73,7 @@ function reset(){
         }
         if($('#pref_type').val() == 'random')set_pref_random();
         if($('#pref_type').val() == 'rand_sp')set_pref_random(3,3);
+        if($('#pref_type').val() == 'sorted')set_pref_sorted();
         if(debug)console.log('preference setted',mpref,wpref);
         reset_frame();
     }

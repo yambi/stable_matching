@@ -121,9 +121,15 @@ function preflist2text(a){
     return s;
 }
 
-function random_pref(n){
+
+function iota(n){
     var a = []
     for(var i=0;i<n;++i)a.push(i);
+    return a;
+}
+
+function random_pref(n){
+    var a = iota(n);
     for(var i=0;i<n;++i){
         j = i+Math.floor((n-i)*Math.random())
         var tmp=a[i];
@@ -145,6 +151,18 @@ function set_pref_random(s=MAX_SIZE,t=MAX_SIZE){
         while(wpref[i].length>t)wpref[i].pop();
     }
 }
+
+function set_pref_sorted(){
+    mpref = [];
+    for(var i=0; i<m_size; i++){
+        mpref.push(iota(w_size));
+    }
+    wpref = [];
+    for(var i=0; i<w_size; i++){
+        wpref.push(iota(m_size));
+    }
+}
+
 
 function h(i){
     return sep+name_height*i;
