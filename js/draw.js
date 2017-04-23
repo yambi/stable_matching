@@ -646,6 +646,10 @@ function draw_matching(){
             else wpref_text[i][m].transition().duration(delay).attr('fill','black').attr('font-weight','normal');
         }
     }
+
+    if(show_irlist){
+        $.notify("#justifiable_envy="+count_justifiable_envy(),"info");
+    }
 }
 
 
@@ -666,6 +670,27 @@ function update_edgeposition(){
         }
     }
 }
+
+function count_justifiable_envy(){
+    var res = 0;
+    var wcur = [];
+    for(var i=0;i<w_size;++i)wcur[i]=m_size;
+    for(var i=0;i<m_size;++i){
+        if(i in steps[position]){
+            var w = mpref[i][steps[position][i]];
+            wcur[w] = Math.min(wcur[w],winv[w][i]);
+        }
+    }
+    for(var i=0;i<m_size;++i){
+        var k = (i in steps[position])? steps[position][i]:mpref[i].length;
+        for(var j=0;j<k;++j){
+            var w = mpref[i][j];
+            if(wcur[w]>winv[w][i]) res++;
+        }
+    }
+    return res;
+}
+
 
 
 function update_irlist(){
