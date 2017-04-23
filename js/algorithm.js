@@ -222,7 +222,6 @@ function solve_sd(){
 }
 
 
-// now implementing
 function solve_ttc(){
     steps = [{}];
     
@@ -239,9 +238,41 @@ function solve_ttc(){
         var m = Object.keys(munfix)[0];
         var next_m = {};
         var next_w = {};
-        // find
-        var rotation = true;
+        //find cycle
+        var visited = [];
+        for(var i=0;i<m_size;++i)visited[i]=false;
+        while(!visited[m]){
+            visited[m]=true;
+            if(mcur[m]>=mpref[m].length)break;
+            var w=mpref[m][mcur[m]];
+            m=wpref[w][wcur[w]];
+        }
+        //fix cycle
+        var s=m;
+        do{
+            delete munfix[m];
+            if(mcur[m]==mpref[m].length)break;
+            var w=mpref[m][mcur[m]];
+            delete wunfix[w];
+            m=wpref[w][wcur[w]];
+        }while(s!=m);
+        //update pointer
+        for(var w in wunfix){
+            while(wcur[w]<wpref[w].length && !(wpref[w][wcur[w]] in munfix))wcur[w]++;
+            if(wcur[w] == wpref[w].length)delete wunfix[w];
+        }
+        for(var m in munfix){
+            while(mcur[m]<mpref[m].length && !(mpref[m][mcur[m]] in wunfix))mcur[m]++;
+        }
+
+        var mfixed = [];
+        for(var i=0;i<m_size;++i){
+            if(i in munfix)mfixed[i]=mpref[i].length;
+            else mfixed[i]=mcur[i];
+        }
+        steps.push(mcur2step(mfixed));
     }
+    update_position(0);
 }
 
 
