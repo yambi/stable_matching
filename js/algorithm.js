@@ -222,6 +222,45 @@ function solve_sd(){
 }
 
 
+function solve_sfda(){
+    steps = [];
+    var mcur = []; // man i's partner (rank)
+    var wcur = []; // woman i's partner (rank)
+    var wunfix = {};
+    for(var i=0;i<w_size;++i)wunfix[i]=true;
+
+    for(var l=0;l<m_size;++l){
+        for(var i in wunfix)wcur[i]=-1;
+        for(var i=l;i<m_size;++i)mcur[i]=mpref[i].length;
+        steps.push(mcur2step(mcur));
+        var rejected = {}
+        for(var i in wunfix)rejected[i]=true;
+        while(Object.keys(rejected).length>0){
+            for(var i in rejected){
+                wcur[i]++;
+                while(i<wpref[i].length && wpref[i][wcur[i]]<l)wcur[i]++;
+                if(wcur[i]<wpref[i].length){
+                    var nm = wpref[i][wcur[i]];
+                    if(i in minv[nm])mcur[nm] = Math.min(mcur[nm],minv[nm][i]);
+                }
+            }
+            rejected = {};
+            for(var i=0;i<w_size;++i){
+                if(wcur[i]>=wpref[i].length)continue;
+                var nm = wpref[i][wcur[i]];// i's new partner
+                if((!(i in minv[nm])) || minv[nm][i]>mcur[nm]){ 
+                    rejected[i]=true;
+                }
+            }
+        }
+        delete wunfix[mpref[l][mcur[l]]]
+    }
+    steps.push(mcur2step(mcur));
+    update_position(0);
+}
+
+
+
 function solve_ttc(){
     steps = [{}];
     

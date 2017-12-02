@@ -595,6 +595,7 @@ function reset_steps(){
     if($('#alg_type').val() == 'boston')solve_boston();
     if($('#alg_type').val() == 'sd')solve_sd();
     if($('#alg_type').val() == 'eada')solve_eada();
+    if($('#alg_type').val() == 'sfda')solve_sfda();
     if($('#alg_type').val() == 'ttc')solve_ttc();
     if($('#alg_type').val() == 'da+ttc')solve_da_ttc();
     if($('#alg_type').val() == 'rotation')solve_rotation();
