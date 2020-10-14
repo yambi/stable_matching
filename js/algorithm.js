@@ -260,7 +260,6 @@ function solve_sfda(){
 }
 
 
-
 function solve_ttc(){
     steps = [{}];
     
